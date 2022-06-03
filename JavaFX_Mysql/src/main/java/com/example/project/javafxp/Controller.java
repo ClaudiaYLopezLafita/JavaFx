@@ -100,7 +100,7 @@ public class Controller {
         Parent root = null;
         try {
             root = FXMLLoader.load(
-                    Controller.class.getResource("selectionTables.fxml"));
+                    Controller.class.getResource("offices.fxml"));
             stage.setScene(new Scene(root));
             stage.setTitle("Offices");
             stage.initModality(Modality.WINDOW_MODAL);
@@ -111,4 +111,6 @@ public class Controller {
             throw new RuntimeException(e);
         }
     }
+
+
 }
