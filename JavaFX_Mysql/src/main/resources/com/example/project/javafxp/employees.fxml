@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="tvEmployee" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <SplitPane dividerPositions="0.29797979797979796" prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -48,6 +48,14 @@
                         <Label text="Office Code:" GridPane.rowIndex="5" />
                         <Label text="Reports To:" GridPane.rowIndex="6" />
                         <Label text="Title:" GridPane.rowIndex="7" />
+                        <Label fx:id="columNumber" text="Label" GridPane.columnIndex="1" />
+                        <Label fx:id="columLastName" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="columFirstName" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="columExtension" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="columEmail" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label fx:id="columOfficeCode" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label fx:id="columBoss" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Label fx:id="columTitle" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                      </children>
                   </GridPane>
                   <HBox layoutX="167.0" layoutY="360.0" prefHeight="24.0" prefWidth="198.0" spacing="3.0">

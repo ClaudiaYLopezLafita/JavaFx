@@ -1,12 +1,21 @@
 package com.example.project.javafxp;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Model class for an Employee
  */
-public class Employees {
+public class Employees{
 /*
 usar Propiedades para todos los atributos de un clase usada como modelo.
 Una Propiedad permite, entre otras cosas, recibir notificaciones automáticamente cuando
@@ -25,25 +34,77 @@ Esto ayuda a mantener sincronizados la vista y los datos.
     public Employees() {
     }
 
-    public Employees(IntegerProperty employeeNumber, StringProperty lastName, StringProperty firstName,
-                     StringProperty extension, StringProperty email, StringProperty officeCode,
-                     IntegerProperty reportTo, StringProperty title) {
-        this.employeeNumber = employeeNumber;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.extension = extension;
-        this.email = email;
-        this.officeCode = officeCode;
-        this.reportTo = reportTo;
-        this.title = title;
+    public Employees(Integer employeeNumber, String lastName, String firstName,
+                     String extension, String email, String officeCode,
+                     Integer reportTo, String title) {
+        this.employeeNumber =  new SimpleIntegerProperty(employeeNumber);
+        this.lastName = new SimpleStringProperty(lastName);
+        this.firstName = new SimpleStringProperty(firstName);
+        this.extension = new SimpleStringProperty(extension);
+        this.email = new SimpleStringProperty(email);
+        this.officeCode = new SimpleStringProperty(officeCode);
+        this.reportTo =  new SimpleIntegerProperty(reportTo);
+        this.title = new SimpleStringProperty(title);
+    }
+
+    public Employees getEmployee (ObservableList<String> olEmployees)
+    {
+        Employees emp = new Employees();
+        int i = 0;
+
+        for (String str : olEmployees)
+        {
+            switch (i) {
+                case 0: {
+                    if(str != null && !str.isBlank())
+                        emp.employeeNumber = new SimpleIntegerProperty(Integer.parseInt(str));
+
+                    break;
+                }
+                case 1:{
+                    emp.lastName = new SimpleStringProperty(str);
+                    break;
+                }
+                case 2:{
+                    emp.firstName = new SimpleStringProperty(str);
+                    break;
+                }
+                case 3:{
+                    emp.extension = new SimpleStringProperty(str);
+                    break;
+                }
+                case 4:{
+                    emp.email = new SimpleStringProperty(str);
+                    break;
+                }
+                case 5:{
+                    emp.officeCode = new SimpleStringProperty(str);
+                    break;
+                }
+                case 6:{
+                    if(str != null && !str.isBlank())
+                        emp.reportTo = new SimpleIntegerProperty(Integer.parseInt(str));
+                    break;
+                }
+                case 7:{
+                    emp.title = new SimpleStringProperty(str);
+                    break;
+                }
+            }
+            i++;
+        }
+        return emp;
     }
 
     public int getEmployeeNumber() {
         return employeeNumber.get();
     }
 
-    public IntegerProperty employeeNumberProperty() {
-        return employeeNumber;
+    // Para añadir el Integer get al TableCol del TableView como propiedad tiene que devolver
+    // un ObservableValue<Integer> y se devuelve un SimpleInteerProperty (al cual hay que pasarle un int) y finalmente
+    // llamar a asObject
+    public ObservableValue<Integer> employeeNumberProperty() {
+        return new SimpleIntegerProperty(getEmployeeNumber()).asObject();
     }
 
     public void setEmployeeNumber(int employeeNumber) {
@@ -54,6 +115,7 @@ Esto ayuda a mantener sincronizados la vista y los datos.
         return lastName.get();
     }
 
+    // Para añadir el String get al TableCol del TableView como propiedad tiene que devolver un StringProperty y no se pone el get()
     public StringProperty lastNameProperty() {
         return lastName;
     }
@@ -114,8 +176,8 @@ Esto ayuda a mantener sincronizados la vista y los datos.
         return reportTo.get();
     }
 
-    public IntegerProperty reportToProperty() {
-        return reportTo;
+    public ObservableValue<Integer> reportToProperty() {
+        return new SimpleIntegerProperty(reportTo.get()).asObject();
     }
 
     public void setReportTo(int reportTo) {
@@ -132,6 +194,38 @@ Esto ayuda a mantener sincronizados la vista y los datos.
 
     public void setTitle(String title) {
         this.title.set(title);
+    }
+
+    public static Employees[] dataEmployee(){
+        Connection connection = ConnectionDB.getConnection();
+        Employees[] employees = null;
+        String sql = "Select * From employees";
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+
+            int numEmployees=0;
+            if (rs.next()){
+
+                Integer employeeNumber = rs.getInt(1);
+                String lastName = rs.getString(2);
+                String firstName = rs.getString(3);
+                String extension = rs.getString(4);
+                String email = rs.getString(5);
+                String officeCode = rs.getString(6);
+                Integer reportTo = rs.getInt(7);
+                String title = rs.getString(8);
+
+                employees[numEmployees] = new Employees(employeeNumber, lastName, firstName, extension,
+                        email, officeCode, reportTo, title);
+                numEmployees++;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error: "+e.getMessage());
+        }
+
+        return employees;
     }
 
     @Override

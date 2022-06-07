@@ -1,6 +1,7 @@
 module com.example.project.javafxp {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
 
     opens com.example.project.javafxp to javafx.fxml;
