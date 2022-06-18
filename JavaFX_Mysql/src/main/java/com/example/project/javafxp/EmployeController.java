@@ -8,8 +8,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -18,8 +20,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class EmployeController {
 
@@ -41,6 +45,25 @@ public class EmployeController {
     private TableColumn bossCol;
     @FXML
     private TableColumn titleCol;
+
+    private ObservableList<Employe> observableList;
+
+    @FXML
+    private TextField addNumEmp;
+    @FXML
+    private TextField addLastName;
+    @FXML
+    private TextField addFirstName;
+    @FXML
+    private TextField addExtension;
+    @FXML
+    private TextField addEmail;
+    @FXML
+    private TextField addOffice;
+    @FXML
+    private TextField addBoss;
+    @FXML
+    private TextField addTitle;
 
     public static List<Employe> getEmployees(){
 
@@ -78,7 +101,7 @@ public class EmployeController {
 
     public void btCargarClick(ActionEvent actionEvent) {
 
-        ObservableList<Employe> observableList = FXCollections.observableList(getEmployees());
+        observableList = FXCollections.observableList(getEmployees());
         this.tvEmployees.setItems(observableList);
 
         this.employeeNumberCol.setCellValueFactory(new PropertyValueFactory("empNum"));
@@ -86,7 +109,90 @@ public class EmployeController {
         this.firstNameCol.setCellValueFactory(new PropertyValueFactory("firstName"));
         this.extensionCol.setCellValueFactory(new PropertyValueFactory("extension"));
         this.emailCol.setCellValueFactory(new PropertyValueFactory("email"));
+        this.officeCodeCol.setCellValueFactory(new PropertyValueFactory("officeCode"));
         this.bossCol.setCellValueFactory(new PropertyValueFactory("boss"));
         this.titleCol.setCellValueFactory(new PropertyValueFactory("title"));
+    }
+    @FXML
+    public void btNuevoClick(ActionEvent actionEvent) {
+
+        try{
+            insertEmployee();
+            btCargarClick(actionEvent);
+
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("Error");
+            alert.setContentText("Formato incorrecto");
+            alert.showAndWait();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    public boolean insertEmployee(){
+
+        Connection connection = ConnectionDB.getConnection();
+
+        int numEmp = Integer.parseInt(addNumEmp.getText());
+        String lastName = addLastName.getText();
+        String firstName = addFirstName.getText();
+        String extension = addExtension.getText();
+        String email = addEmail.getText();
+        String office = addOffice.getText();
+        int boss = Integer.parseInt(addBoss.getText());
+        String title = addTitle.getText();
+
+        Employe employe = new Employe(numEmp,lastName,firstName,extension,email,office,boss,title);
+
+        try {
+            connection.setAutoCommit(false);
+
+            String sql = "INSERT INTO employees VALUES(?,?,?,?,?,?,?,?);";
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            ps.setInt(1,employe.getEmpNum());
+            ps.setString(2,employe.getLastName());
+            ps.setString(3,employe.getFirstName());
+            ps.setString(4,employe.getExtension());
+            ps.setString(5,employe.getEmail());
+            ps.setString(6,employe.getOfficeCode());
+            ps.setInt(7,employe.getBoss());
+            ps.setString(8,employe.getTitle());
+
+            ps.executeUpdate();
+            connection.commit();
+
+            System.out.println("Empleado insertado");
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void btBorrarClick(ActionEvent actionEvent) {
+
+        Connection connection = ConnectionDB.getConnection();
+
+        int numEmp = tvEmployees.getSelectionModel().getSelectedItem().getEmpNum();
+
+        String sql = "DELETE FROM employees WHERE employeeNumber= ?";
+
+        try {
+            connection.setAutoCommit(false);
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1,numEmp);
+            ps.executeUpdate();
+            connection.commit();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        tvEmployees.getItems().removeAll(tvEmployees.getSelectionModel().getSelectedItem());
+
     }
 }

@@ -27,21 +27,6 @@ public class Employe {
 
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Employe employees = (Employe) o;
-
-        return empNum == employees.empNum;
-    }
-
-    @Override
-    public int hashCode() {
-        return empNum;
-    }
-
     public int getEmpNum() {
         return empNum;
     }
@@ -118,5 +103,35 @@ public class Employe {
                 ", boss=" + boss +
                 ", title='" + title + '\'' +
                 '}'+'\n';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Employe employe = (Employe) o;
+
+        if (empNum != employe.empNum) return false;
+        if (boss != employe.boss) return false;
+        if (!lastName.equals(employe.lastName)) return false;
+        if (!firstName.equals(employe.firstName)) return false;
+        if (!extension.equals(employe.extension)) return false;
+        if (!email.equals(employe.email)) return false;
+        if (!officeCode.equals(employe.officeCode)) return false;
+        return title.equals(employe.title);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = empNum;
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + firstName.hashCode();
+        result = 31 * result + extension.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + officeCode.hashCode();
+        result = 31 * result + boss;
+        result = 31 * result + title.hashCode();
+        return result;
     }
 }

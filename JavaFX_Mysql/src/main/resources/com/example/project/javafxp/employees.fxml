@@ -1,22 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.javafxp.EmployeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.javafxp.EmployeController">
    <children>
-      <TableView fx:id="tvEmployees" layoutX="46.0" layoutY="31.0" prefHeight="356.0" prefWidth="600.0" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TableView fx:id="tvEmployees" layoutX="46.0" layoutY="31.0" prefHeight="422.0" prefWidth="602.0" AnchorPane.bottomAnchor="56.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="316.0" AnchorPane.topAnchor="0.0">
         <columns>
-          <TableColumn fx:id="employeeNumberCol" prefWidth="75.0" text="C1" />
-          <TableColumn fx:id="lastNameCol" prefWidth="75.0" text="C2" />
-            <TableColumn fx:id="firstNameCol" prefWidth="75.0" text="Column X" />
-            <TableColumn fx:id="extensionCol" prefWidth="75.0" text="Column X" />
-            <TableColumn fx:id="emailCol" prefWidth="75.0" text="Column X" />
-            <TableColumn fx:id="officeCodeCol" prefWidth="75.0" text="Column X" />
-            <TableColumn fx:id="bossCol" prefWidth="75.0" text="Column X" />
-            <TableColumn fx:id="titleCol" prefWidth="75.0" text="Column X" />
+          <TableColumn fx:id="employeeNumberCol" prefWidth="75.0" text="numEmpleado" />
+          <TableColumn fx:id="lastNameCol" prefWidth="75.0" text="LastName" />
+            <TableColumn fx:id="firstNameCol" prefWidth="75.0" text="FirstName" />
+            <TableColumn fx:id="extensionCol" prefWidth="75.0" text="Extension" />
+            <TableColumn fx:id="emailCol" prefWidth="75.0" text="Email" />
+            <TableColumn fx:id="officeCodeCol" prefWidth="75.0" text="Office" />
+            <TableColumn fx:id="bossCol" prefWidth="75.0" text="Boss" />
+            <TableColumn fx:id="titleCol" prefWidth="75.0" text="Title" />
         </columns>
       </TableView>
-      <Button fx:id="loadDatas" layoutX="513.0" layoutY="362.0" mnemonicParsing="false" onAction="#btCargarClick"  text="Cargar" />
+      <Button fx:id="loadDatas" layoutX="28.0" layoutY="441.0" mnemonicParsing="false" onAction="#btCargarClick" text="Cargar" />
+      <Button fx:id="btNuevo" layoutX="615.0" layoutY="422.0" mnemonicParsing="false" onAction="#btNuevoClick" text="Añadir" />
+      <Button fx:id="btModificar" layoutX="703.0" layoutY="422.0" mnemonicParsing="false" text="Modificar" />
+      <Button fx:id="btBorrar" layoutX="808.0" layoutY="422.0" mnemonicParsing="false" onAction="#btBorrarClick" text="Borrar" />
+      <Label layoutX="688.0" layoutY="20.0" text="Datos Empleado" />
+      <GridPane layoutX="627.0" layoutY="54.0" prefHeight="352.0" prefWidth="259.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.0" minWidth="10.0" prefWidth="133.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.0" minWidth="10.0" prefWidth="126.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Num. Employe" />
+            <Label text="Last Name" GridPane.columnIndex="1" />
+            <Label text="First Name" GridPane.rowIndex="2" />
+            <Label text="Extension" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Email" GridPane.rowIndex="4" />
+            <Label text="Office" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label text="Boss" GridPane.rowIndex="6" />
+            <Label text="Title" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="addNumEmp" prefHeight="9.0" prefWidth="100.0" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin></TextField>
+            <TextField fx:id="addLastName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="addFirstName" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin></TextField>
+            <TextField fx:id="addExtension" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="addEmail" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin></TextField>
+            <TextField fx:id="addOffice" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="addBoss" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin></TextField>
+            <TextField fx:id="addTitle" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+         </children>
+      </GridPane>
    </children>
 </AnchorPane>
