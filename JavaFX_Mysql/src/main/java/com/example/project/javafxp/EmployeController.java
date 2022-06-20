@@ -113,7 +113,6 @@ public class EmployeController {
         this.bossCol.setCellValueFactory(new PropertyValueFactory("boss"));
         this.titleCol.setCellValueFactory(new PropertyValueFactory("title"));
     }
-    @FXML
     public void btNuevoClick(ActionEvent actionEvent) {
 
         try{
@@ -171,7 +170,6 @@ public class EmployeController {
             throw new RuntimeException(e);
         }
     }
-
     public void btBorrarClick(ActionEvent actionEvent) {
 
         Connection connection = ConnectionDB.getConnection();
@@ -189,10 +187,56 @@ public class EmployeController {
             connection.commit();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("error: "+e.getMessage());
+            try {
+                if (connection!=null) {
+                    connection.rollback();
+                    System.out.println("No se modifico la base de datos");
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
 
         tvEmployees.getItems().removeAll(tvEmployees.getSelectionModel().getSelectedItem());
+
+    }
+    public void btModificarClick(ActionEvent actionEvent) {
+
+        Connection connection = ConnectionDB.getConnection();
+
+        int numEmp = tvEmployees.getSelectionModel().getSelectedItem().getEmpNum();
+
+        try {
+            connection.setAutoCommit(false);
+
+            String sql = "UPDATE employees SET lastName = '"+addLastName.getText()+
+                    "', firstName = '"+ addFirstName.getText()+
+                    "', extension = '"+addExtension.getText()+
+                    "', email = '"+addEmail.getText()+
+                    "', officeCode = '"+addOffice.getText()+
+                    "', reportsTo = '"+Integer.parseInt(addBoss.getText())+
+                    "', jobTitle = '"+addTitle.getText()+
+                    "' WHERE employeeNumber = "+numEmp+"";
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            ps.executeUpdate();
+            connection.commit();
+            btCargarClick(actionEvent);
+            System.out.println("Empleado actualizado");
+
+        } catch (SQLException e) {
+            System.out.println("error: "+e.getMessage());
+            try {
+                if (connection!=null) {
+                    connection.rollback();
+                    System.out.println("No se modifico la base de datos");
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
 
     }
 }

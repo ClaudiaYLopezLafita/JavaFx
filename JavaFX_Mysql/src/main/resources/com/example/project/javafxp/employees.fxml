@@ -20,7 +20,7 @@
       </TableView>
       <Button fx:id="loadDatas" layoutX="28.0" layoutY="441.0" mnemonicParsing="false" onAction="#btCargarClick" text="Cargar" />
       <Button fx:id="btNuevo" layoutX="615.0" layoutY="422.0" mnemonicParsing="false" onAction="#btNuevoClick" text="Añadir" />
-      <Button fx:id="btModificar" layoutX="703.0" layoutY="422.0" mnemonicParsing="false" text="Modificar" />
+      <Button fx:id="btModificar" layoutX="703.0" layoutY="422.0" mnemonicParsing="false" onAction="#btModificarClick" text="Modificar" />
       <Button fx:id="btBorrar" layoutX="808.0" layoutY="422.0" mnemonicParsing="false" onAction="#btBorrarClick" text="Borrar" />
       <Label layoutX="688.0" layoutY="20.0" text="Datos Empleado" />
       <GridPane layoutX="627.0" layoutY="54.0" prefHeight="352.0" prefWidth="259.0">
