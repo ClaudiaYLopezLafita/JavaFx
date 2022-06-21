@@ -98,7 +98,6 @@ public class EmployeController {
 
         return list;
     }
-
     public void btCargarClick(ActionEvent actionEvent) {
 
         observableList = FXCollections.observableList(getEmployees());

@@ -39,12 +39,14 @@ public class Controller {
             alert.setHeaderText("Faltan datos por introducir");
             alert.setContentText("Compruebe que el nombre y la contraseña estan rellenos. ");
             txtName.requestFocus();
+            alert.showAndWait();
         } else if ( !nombre.equals("Claudia") || !password.equals("123")){
             alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Datos incorrectos...");
             alert.setHeaderText("El nombre y/o la contraseña son incorrectas.");
             alert.setContentText("Compruebe que los datos son correctos.");
             txtName.requestFocus();
+            alert.showAndWait();
         } else {
             Stage stage = new Stage();
             Parent root = null;
@@ -61,7 +63,6 @@ public class Controller {
                 throw new RuntimeException(e);
             }
         }
-//        alert.showAndWait();
     }
 
     public void btSalirClick(ActionEvent actionEvent) {
