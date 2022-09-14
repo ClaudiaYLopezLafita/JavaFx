@@ -1,5 +1,7 @@
 package com.example.project.javafxp;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,43 +29,26 @@ import java.util.Scanner;
 
 public class EmployeController {
 
-    @FXML
-    private TableView<Employe> tvEmployees;
-    @FXML
-    private TableColumn employeeNumberCol;
-    @FXML
-    private TableColumn lastNameCol;
-    @FXML
-    private TableColumn firstNameCol;
-    @FXML
-    private TableColumn extensionCol;
-    @FXML
-    private TableColumn emailCol;
-    @FXML
-    private TableColumn officeCodeCol;
-    @FXML
-    private TableColumn bossCol;
-    @FXML
-    private TableColumn titleCol;
+    @FXML private TableView<Employe> tvEmployees;
+    @FXML private TableColumn employeeNumberCol;
+    @FXML private TableColumn lastNameCol;
+    @FXML private TableColumn firstNameCol;
+    @FXML private TableColumn extensionCol;
+    @FXML private TableColumn emailCol;
+    @FXML private TableColumn officeCodeCol;
+    @FXML private TableColumn bossCol;
+    @FXML private TableColumn titleCol;
 
     private ObservableList<Employe> observableList;
 
-    @FXML
-    private TextField addNumEmp;
-    @FXML
-    private TextField addLastName;
-    @FXML
-    private TextField addFirstName;
-    @FXML
-    private TextField addExtension;
-    @FXML
-    private TextField addEmail;
-    @FXML
-    private TextField addOffice;
-    @FXML
-    private TextField addBoss;
-    @FXML
-    private TextField addTitle;
+    @FXML private TextField addNumEmp;
+    @FXML private TextField addLastName;
+    @FXML private TextField addFirstName;
+    @FXML private TextField addExtension;
+    @FXML private TextField addEmail;
+    @FXML private TextField addOffice; //desplegable con la ciudad que tiene relacin
+    @FXML private TextField addBoss;//desplegable
+    @FXML private TextField addTitle;
 
     public static List<Employe> getEmployees(){
 
@@ -111,6 +96,8 @@ public class EmployeController {
         this.officeCodeCol.setCellValueFactory(new PropertyValueFactory("officeCode"));
         this.bossCol.setCellValueFactory(new PropertyValueFactory("boss"));
         this.titleCol.setCellValueFactory(new PropertyValueFactory("title"));
+        viewData();
+
     }
     public void btNuevoClick(ActionEvent actionEvent) {
 
@@ -203,11 +190,10 @@ public class EmployeController {
     public void btModificarClick(ActionEvent actionEvent) {
 
         Connection connection = ConnectionDB.getConnection();
-
         int numEmp = tvEmployees.getSelectionModel().getSelectedItem().getEmpNum();
-
         try {
             connection.setAutoCommit(false);
+
 
             String sql = "UPDATE employees SET lastName = '"+addLastName.getText()+
                     "', firstName = '"+ addFirstName.getText()+
@@ -237,5 +223,26 @@ public class EmployeController {
             }
         }
 
+    }
+
+    public void viewData(){
+
+
+        tvEmployees.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Employe>() {
+            @Override
+            public void changed(ObservableValue<? extends Employe> observable,
+                                Employe oldValue, Employe newValue) {
+                Employe seleccionado = tvEmployees.getSelectionModel().getSelectedItem();
+
+                addNumEmp.setText(String.valueOf(seleccionado.getEmpNum()));
+                addLastName.setText(seleccionado.getLastName());;
+                addFirstName.setText(seleccionado.getFirstName());
+                addExtension.setText(seleccionado.getExtension());
+                addEmail.setText(seleccionado.getEmail());
+                addOffice.setText(seleccionado.getOfficeCode());
+                addBoss.setText(String.valueOf(seleccionado.getBoss()));
+                addTitle.setText(seleccionado.getTitle());
+            }
+        });
     }
 }

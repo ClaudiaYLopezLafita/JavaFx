@@ -13,7 +13,8 @@ public class ConnectionDB {
 
         try {
             if (con == null) {
-                con = DriverManager.getConnection("jdbc:mysql://localhost:336/classicmodels?user=root&password=root");
+                con = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3366/classicmodels?user=root&password=rootroot");
                 System.out.println("Conexion Existosa \n");
             }
         } catch (SQLException ex) {
